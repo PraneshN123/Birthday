@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday Kiruthika ❤️</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           CSS VARIABLES & GLOBAL RESETS
+           ========================================= */
+        :root {
+            --primary: #6A0DAD;
+            --primary-dark: #3a0663;
+            --accent: #b16ced;
+            --bg-dark: #0f0f0f;
+            --text-light: #f5f5f5;
+            --glass-bg: rgba(20, 20, 20, 0.4);
+            --glass-border: rgba(177, 108, 237, 0.3);
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Poppins', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Animated Dark Gradient Background */
+        .bg-animated {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(135deg, var(--bg-dark) 40%, var(--primary-dark) 100%);
+            background-size: 200% 200%;
+            animation: gradientBG 15s ease infinite; z-index: -3;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Background Scatter for ALL Screens */
+        #persistent-scatter {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: -1; overflow: hidden; opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+        .bg-scatter-img {
+            position: absolute; width: clamp(90px, 15vw, 150px); height: clamp(90px, 15vw, 150px);
+            object-fit: cover; border-radius: 12px; opacity: 0.15; filter: blur(2px);
+            border: 2px solid var(--glass-border); box-shadow: 0 0 20px rgba(177, 108, 237, 0.1);
+        }
+
+        /* =========================================
+           CUSTOM CURSOR
+           ========================================= */
+        #custom-cursor {
+            position: fixed; width: 20px; height: 20px;
+            border: 2px solid var(--accent); border-radius: 50%;
+            pointer-events: none; transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+            z-index: 9999; box-shadow: 0 0 10px var(--accent);
+        }
+        #custom-cursor.hovering { width: 40px; height: 40px; background-color: rgba(177, 108, 237, 0.2); }
+
+        /* =========================================
+           FLOATING HEARTS ANIMATION
+           ========================================= */
+        .heart-container {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: -2; overflow: hidden;
+        }
+        .heart {
+            position: absolute; bottom: -50px; color: var(--accent); opacity: 0.6;
+            animation: floatUp linear forwards; filter: drop-shadow(0 0 5px var(--accent));
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.8) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.8; }
+            100% { transform: translateY(-120vh) scale(1.2) rotate(360deg); opacity: 0; }
+        }
+
+        /* =========================================
+           SCREEN TRANSITIONS & LAYOUT
+           ========================================= */
+        .screen {
+            display: none; opacity: 0; width: 100vw; min-height: 100vh; padding: 2rem;
+            transition: opacity 1.2s ease-in-out; align-items: center; justify-content: center;
+            flex-direction: column; position: absolute; top: 0; left: 0; z-index: 10;
+        }
+        .screen.active { display: flex; opacity: 1; position: relative; }
+
+        h1, h2, h3 { font-family: var(--font-heading); font-weight: 600; text-align: center; text-shadow: 0 0 20px rgba(177, 108, 237, 0.5); }
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 0.5rem; }
+        p { font-size: 1rem; line-height: 1.6; text-align: center; color: #ccc; z-index: 10; }
+
+        .btn {
+            background: var(--glass-bg); backdrop-filter: blur(10px); color: var(--text-light);
+            border: 1px solid var(--accent); padding: 12px 30px; border-radius: 30px;
+            font-family: var(--font-body); font-size: 1rem; margin-top: 2rem;
+            position: relative; overflow: hidden; transition: all 0.3s ease;
+            display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 0 15px rgba(106, 13, 173, 0.4); z-index: 50;
+            white-space: nowrap; /* Added to keep text on one line */
+        }
+        .btn:hover { background: var(--accent); color: var(--bg-dark); box-shadow: 0 0 30px var(--accent); transform: scale(1.05); }
+
+        .glass-card {
+            background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border); border-radius: 20px; padding: 2.5rem;
+            max-width: 600px; width: 100%; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            position: relative; overflow: hidden; z-index: 10;
+        }
+        
+        /* =========================================
+           1. OPENING SCREEN
+           ========================================= */
+        #scatter-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden; z-index: 1; pointer-events: none;
+        }
+        .scatter-piece {
+            position: absolute; border-radius: 6px; border: 3px solid #fff;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5); overflow: hidden;
+            transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .scatter-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-repeat: no-repeat; transition: opacity 1.5s ease-in-out;
+        }
+        .scatter-front { background-size: cover; background-position: center; z-index: 2; }
+        .scatter-back { z-index: 1; }
+
+        /* =========================================
+           GAMES CSS
+           ========================================= */
+        .game-title { margin-bottom: 1rem; color: var(--accent); }
+        .game-subtitle { margin-bottom: 2rem; }
+        
+        /* Game 1: Memory Match */
+        .memory-game-grid { display: grid; grid-template-columns: repeat(4, 75px); gap: 10px; perspective: 1000px; z-index: 10; justify-content: center; }
+        .mem-card { width: 75px; height: 75px; position: relative; transform-style: preserve-3d; transition: transform 0.5s; }
+        .mem-card.flip { transform: rotateY(180deg); }
+        .mem-face { width: 100%; height: 100%; position: absolute; backface-visibility: hidden; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.3); border: 2px solid var(--accent); }
+        .mem-front { background-color: var(--primary-dark); display: flex; align-items: center; justify-content: center; }
+        .mem-front .material-icons { font-size: 35px; color: var(--accent); }
+        .mem-back { background-size: cover; background-position: center; transform: rotateY(180deg); }
+
+        /* Game 2: Fixed Puzzle */
+        .puzzle-game-grid {
+            display: grid; grid-template-columns: repeat(3, 100px); grid-template-rows: repeat(3, 100px);
+            gap: 6px; padding: 15px; background: rgba(0,0,0,0.2); backdrop-filter: blur(5px);
+            border-radius: 15px; z-index: 10; border: 1px solid rgba(177, 108, 237, 0.3);
+            margin: 0 auto;
+        }
+        
+        .puzzle-piece { 
+            width: 100px; height: 100px; background-size: 300px 300px; 
+            border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            transition: filter 0.2s, transform 0.2s; background-repeat: no-repeat;
+        }
+        
+        .puzzle-piece.selected { 
+            filter: brightness(1.4); border: 3px solid #fff; transform: scale(0.92); z-index: 5; 
+        }
+
+        /* Game 3: Dodging Button */
+        /* FIXED: Added align-items: center so the YES button doesn't stretch vertically */
+        .question-container { display: flex; gap: 20px; margin-top: 30px; z-index: 10; position: relative; width: 100%; height: 200px; justify-content: center; align-items: center; }
+        .btn-yes { z-index: 20; }
+        .btn-no { position: absolute; background: #ff4757; border-color: #ff4757; z-index: 20; transition: transform 0.2s ease-out, background-color 0.3s; }
+
+        /* =========================================
+           LETTER PAGE & TIMELINE
+           ========================================= */
+        .letter-content { font-family: var(--font-heading); font-size: 1.2rem; line-height: 2; min-height: 250px; color: #eaeaea; font-style: italic; white-space: pre-wrap; }
+        .cursor-blink { display: inline-block; width: 2px; height: 1.2em; background-color: var(--accent); animation: blink 0.7s infinite; vertical-align: middle; margin-left: 2px; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .audio-controls { display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); width: 100%; }
+        .audio-controls .material-icons { font-size: 2rem; color: var(--accent); transition: transform 0.2s; }
+        .audio-controls .material-icons:hover { transform: scale(1.2); text-shadow: 0 0 10px var(--accent); }
+        .song-info { font-size: 0.85rem; color: #aaa; display: flex; align-items: center; gap: 5px; }
+        
+        input[type=range] { -webkit-appearance: none; width: 100px; background: transparent; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 12px; width: 12px; border-radius: 50%; background: var(--accent); margin-top: -5px; box-shadow: 0 0 10px var(--accent); }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 2px; background: rgba(255,255,255,0.2); }
+
+        .timeline-container { width: 100%; max-width: 800px; position: relative; padding: 4rem 0; margin: 0 auto; z-index: 10; }
+        .timeline-container::before { content: ''; position: absolute; top: 0; left: 50%; width: 2px; height: 100%; background: linear-gradient(to bottom, transparent, var(--accent), transparent); transform: translateX(-50%); }
+        .timeline-item { position: relative; width: 50%; padding: 20px 40px; opacity: 0; transform: translateY(50px); transition: all 0.8s ease-out; }
+        .timeline-item.show { opacity: 1; transform: translateY(0); }
+        .timeline-item:nth-child(odd) { left: 0; text-align: right; }
+        .timeline-item:nth-child(even) { left: 50%; text-align: left; }
+        .timeline-dot { position: absolute; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; background: var(--bg-dark); border: 3px solid var(--accent); border-radius: 50%; box-shadow: 0 0 15px var(--accent); z-index: 2; }
+        .timeline-item:nth-child(odd) .timeline-dot { right: -10px; }
+        .timeline-item:nth-child(even) .timeline-dot { left: -10px; }
+        .memory-card { display: inline-block; text-align: center; transition: transform 0.3s; background: var(--glass-bg); padding: 15px; border-radius: 15px; border: 1px solid var(--glass-border); backdrop-filter: blur(5px); }
+        .memory-card:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(106, 13, 173, 0.4); }
+        .memory-img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid var(--glass-border); box-shadow: 0 0 20px rgba(106, 13, 173, 0.4); margin-bottom: 10px; }
+        .memory-date { color: var(--accent); font-size: 0.9rem; font-weight: 600; letter-spacing: 1px; }
+
+        .modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+        .modal.active { opacity: 1; pointer-events: all; }
+        .modal-content { max-width: 90%; max-height: 90vh; text-align: center; transform: scale(0.8); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .modal.active .modal-content { transform: scale(1); }
+        .modal img { max-width: 100%; max-height: 60vh; border-radius: 10px; border: 2px solid var(--accent); box-shadow: 0 10px 40px rgba(106, 13, 173, 0.6); }
+        .modal h3 { margin: 1.5rem 0 0.5rem; color: var(--accent); }
+        .modal p { color: #fff; font-size: 1.1rem; }
+        .close-modal { position: absolute; top: 30px; right: 40px; color: #fff; font-size: 2.5rem; transition: color 0.3s; }
+        .close-modal:hover { color: var(--accent); }
+
+        /* Mobile Breakpoints */
+        @media (max-width: 768px) {
+            .glass-card { padding: 1.5rem; }
+            .memory-game-grid { grid-template-columns: repeat(4, 65px); gap: 8px; }
+            .mem-card { width: 65px; height: 65px; }
+            
+            .puzzle-game-grid { grid-template-columns: repeat(3, 80px); grid-template-rows: repeat(3, 80px); gap: 5px; }
+            .puzzle-piece { width: 80px; height: 80px; background-size: 240px 240px; }
+
+            .timeline-container::before { left: 30px; }
+            .timeline-item { width: 100%; padding: 20px 20px 20px 60px; text-align: left !important; }
+            .timeline-item:nth-child(odd), .timeline-item:nth-child(even) { left: 0; }
+            .timeline-dot { left: 20px !important; right: auto !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-animated"></div>
+    <div id="persistent-scatter"></div>
+    
+    <div class="heart-container" id="hearts-container"></div>
+    <div id="custom-cursor"></div>
+
+    <section id="screen-intro" class="screen active">
+        <div id="scatter-container"></div>
+        <div style="z-index: 10; text-align: center;" id="intro-ui">
+            <h1 style="font-size: 3rem; margin-bottom: 20px; animation: pulseFade 2s infinite alternate;">Hello Kiruthika ❤️</h1>
+            <div class="btn hover-target" onclick="startGames()">
+                <span class="material-icons">favorite</span>
+                Tap to Open
+            </div>
+        </div>
+    </section>
+
+    <section id="screen-game1" class="screen">
+        <h2 class="game-title">Game 1: Perfect Matches</h2>
+        <p class="game-subtitle">Find the matching moments of us to unlock the next level.</p>
+        <div class="memory-game-grid" id="memory-board"></div>
+        <div class="btn hover-target" id="btn-next-game1" style="display:none; margin-top: 30px;" onclick="switchScreen('screen-game1', 'screen-game2')">
+            Next Challenge <span class="material-icons">arrow_forward</span>
+        </div>
+    </section>
+
+    <section id="screen-game2" class="screen">
+        <h2 class="game-title">Game 2: Magic Puzzle</h2>
+        <p class="game-subtitle">Click two pieces to swap them and complete our picture.</p>
+        <div class="puzzle-game-grid" id="puzzle-board"></div>
+        <div class="btn hover-target" id="btn-next-game2" style="display:none; margin-top: 30px;" onclick="switchScreen('screen-game2', 'screen-game3')">
+            Final Challenge <span class="material-icons">arrow_forward</span>
+        </div>
+        <button class="btn hover-target" id="skip-puzzle" style="margin-top:10px; font-size: 0.8rem; padding: 5px 15px; display:none;" onclick="solvePuzzle()">Skip Puzzle</button>
+    </section>
+
+    <section id="screen-game3" class="screen">
+        <h2 class="game-title">Game 3: The Final Question</h2>
+        <p class="game-subtitle" style="font-size: 1.5rem; color: #fff;">Are you ready for your birthday surprise?</p>
+        <div class="question-container">
+            <div class="btn btn-yes hover-target" onclick="finishGames()">
+                <span class="material-icons">check</span> YES!
+            </div>
+            <div class="btn btn-no hover-target" id="btn-no">
+                <span class="material-icons">close</span> NO
+            </div>
+        </div>
+    </section>
+
+    <section id="screen-welcome" class="screen">
+        <div style="text-align: center;">
+            <h1>Happy Birthday Kiruthika 💜</h1>
+            <p>A small surprise made with endless love</p>
+            <div class="btn hover-target" onclick="goToLetter()">
+                <span class="material-icons">mail</span>
+                Open Your Letter
+            </div>
+        </div>
+    </section>
+
+    <section id="screen-letter" class="screen">
+        <div class="glass-card">
+            <h2 style="margin-bottom: 1.5rem; color: var(--accent);">For You...</h2>
+            <div class="letter-content">
+                <span id="typewriter-text"></span><span class="cursor-blink"></span>
+            </div>
+            <div class="audio-controls">
+                <span class="material-icons hover-target" id="play-pause-btn" onclick="toggleMusic()">pause_circle</span>
+                <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5" class="hover-target" oninput="changeVolume(this.value)">
+                <div class="song-info">
+                    <span class="material-icons" style="font-size: 1rem;">music_note</span>
+                    <span>Our Song</span>
+                </div>
+            </div>
+        </div>
+        <div class="btn hover-target" onclick="goToMemoryLane()">
+            <span class="material-icons">auto_awesome</span>
+            Go to Memory Lane
+        </div>
+    </section>
+
+    <section id="screen-timeline" class="screen">
+        <h1 style="margin-bottom: 1rem;">Our Journey</h1>
+        <p style="margin-bottom: 3rem;">Every moment with you is a treasure.</p>
+        <div class="timeline-container" id="timeline-container"></div>
+    </section>
+
+    <div class="modal" id="memory-modal">
+        <span class="material-icons close-modal hover-target" onclick="closeModal()">close</span>
+        <div class="modal-content">
+            <img id="modal-img" src="" alt="Memory">
+            <h3 id="modal-title"></h3>
+            <p id="modal-note"></p>
+        </div>
+    </div>
+
+    <audio id="bg-music" loop preload="auto">
+        <source src="your-song.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const customLetter = "My dearest Kiruthika,\n\nEvery single moment with you has been nothing short of magical. From the day our beautiful journey began to the promises we've made, you continuously make my world brighter.\n\nThank you for being my anchor, my joy, and my greatest adventure. I hope this special day brings you as much happiness as you bring to me every day.\n\nHappy Birthday, my love.\n\nForever yours,\nDhayanithi";
+
+        const timelineData = [
+            { date: "May 22, 2025", title: "Our First Moments", note: "Where our beautiful story took root.", img: "https://i.postimg.cc/zvV2Sn0n/IMG-20250522-WA0001-1.jpg" },
+            { date: "Nov 21, 2025", title: "Little Surprises", note: "Flowers that fade, but love that blooms.", img: "https://i.postimg.cc/fTVjLq0C/IMG-20251121-215421-1.jpg" },
+            { date: "Nov 22, 2025", title: "That Beautiful Smile", note: "Seeing you happy is my favorite thing.", img: "https://i.postimg.cc/4dnn5qGL/IMG-20251122-122855-1.jpg" },
+            { date: "Nov 23, 2025", title: "Evening Vibes", note: "Just you, me, and the beautiful sky.", img: "https://i.postimg.cc/fWt6dNF1/IMG20251123172307-1.jpg" },
+            { date: "Feb 14, 2026", title: "Arts & Us", note: "Exploring the Arts of Karnataka together.", img: "https://i.postimg.cc/Hsb9GZc5/IMG-20260214-165358-1.jpg" },
+            { date: "Feb 21, 2026", title: "Sunset Magic", note: "The beach, the waves, and my favorite person.", img: "https://i.postimg.cc/3JhDGKNk/IMG-20260221-174931-1.jpg" },
+            { date: "Feb 23, 2026", title: "Sweet Treats", note: "Ice cream dates and sweet conversations.", img: "https://i.postimg.cc/QChxFdmB/IMG-20260223-220725-1.jpg" }
+        ];
+
+        const allImages = [
+            "https://i.postimg.cc/fTVjLq0C/IMG-20251121-215421-1.jpg",
+            "https://i.postimg.cc/3xCyJ29w/IMG-20251121-215438-1.jpg",
+            "https://i.postimg.cc/4dnn5qGL/IMG-20251122-122855-1.jpg",
+            "https://i.postimg.cc/3RWFP3mK/IMG-20260214-152906-1.jpg",
+            "https://i.postimg.cc/HWctzsTw/IMG-20260214-163418-1.jpg",
+            "https://i.postimg.cc/Hsb9GZc5/IMG-20260214-165358-1.jpg",
+            "https://i.postimg.cc/nLSvKNgs/IMG-20260214-170110-1.jpg",
+            "https://i.postimg.cc/QCQ9zz4B/IMG-20260214-175230-1.jpg",
+            "https://i.postimg.cc/3JhDGKNk/IMG-20260221-174931-1.jpg",
+            "https://i.postimg.cc/Qdx960pL/IMG-20260221-175047-1.jpg",
+            "https://i.postimg.cc/VvgsnPZH/IMG-20260302-103504-947-1.jpg",
+            "https://i.postimg.cc/QChxFdmB/IMG-20260223-220725-1.jpg",
+            "https://i.postimg.cc/13jtvPRQ/IMG-20260223-220717-1.jpg",
+            "https://i.postimg.cc/bNLd2k4B/IMG-20260223-220714-1.jpg",
+            "https://i.postimg.cc/TwTZmLzt/IMG-20260302-103512-173-1.jpg",
+            "https://i.postimg.cc/KjHVd914/IMG-20260302-103529-323-1.jpg",
+            "https://i.postimg.cc/L6GwDbdk/IMG-20260302-103553-329-1.jpg",
+            "https://i.postimg.cc/nLJ5b9ht/IMG-20260302-103557-372-1.jpg",
+            "https://i.postimg.cc/zvV2Sn0n/IMG-20250522-WA0001-1.jpg",
+            "https://i.postimg.cc/fWt6dNF1/IMG20251123172307-1.jpg",
+            "https://i.postimg.cc/KYG63ghv/IMG20251123172204-1.jpg"
+        ];
+
+        const introImages = [...allImages].sort(() => 0.5 - Math.random()).slice(0, 9);
+        const mainPuzzleImage = "https://i.postimg.cc/TwTZmLzt/IMG-20260302-103512-173-1.jpg"; 
+
+        /* =========================================
+           CUSTOM CURSOR
+           ========================================= */
+        const cursor = document.getElementById('custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
+        });
+
+        function bindCursorHover() {
+            document.querySelectorAll('.hover-target, .btn, input[type="range"], .mem-card, .puzzle-piece, .memory-card').forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+            });
+        }
+
+        /* =========================================
+           SCATTERED CARDS INIT (DUAL LAYER)
+           ========================================= */
+        let isMobile = window.innerWidth <= 768;
+        let pSize = isMobile ? 80 : 100;
+        let bgSize = pSize * 3;
+
+        function initScatteredPieces() {
+            const container = document.getElementById('scatter-container');
+            
+            for(let i=0; i<9; i++) {
+                let col = i % 3; let row = Math.floor(i / 3);
+                const piece = document.createElement('div');
+                piece.className = 'scatter-piece';
+                piece.style.width = `${pSize}px`; piece.style.height = `${pSize}px`;
+
+                const front = document.createElement('div');
+                front.className = 'scatter-layer scatter-front';
+                front.style.backgroundImage = `url('${introImages[i]}')`;
+
+                const back = document.createElement('div');
+                back.className = 'scatter-layer scatter-back';
+                back.style.backgroundImage = `url('${mainPuzzleImage}')`;
+                back.style.backgroundSize = `${bgSize}px ${bgSize}px`;
+                back.style.backgroundPosition = `${-col * pSize}px ${-row * pSize}px`;
+
+                piece.appendChild(back); piece.appendChild(front);
+                
+                let left = Math.random() * 80 + 10; let top = Math.random() * 80 + 10;
+                let rot = (Math.random() - 0.5) * 120;
+                
+                piece.style.left = `calc(${left}vw - ${pSize/2}px)`;
+                piece.style.top = `calc(${top}vh - ${pSize/2}px)`;
+                piece.style.transform = `rotate(${rot}deg) scale(0.9)`;
+                piece.style.opacity = '0';
+                
+                piece.dataset.targetLeft = `calc(50vw - ${1.5 * pSize}px + ${col * pSize}px)`;
+                piece.dataset.targetTop = `calc(50vh - ${1.5 * pSize}px + ${row * pSize}px)`;
+                
+                container.appendChild(piece);
+                setTimeout(() => { piece.style.opacity = '1'; }, 200 + i * 100);
+            }
+        }
+        initScatteredPieces();
+        bindCursorHover();
+
+        /* =========================================
+           PERSISTENT BACKGROUND FOR ALL SCREENS
+           ========================================= */
+        function createBackgroundScatter() {
+            const container = document.getElementById('persistent-scatter');
+            container.innerHTML = '';
+            let bgImages = [...allImages].sort(() => 0.5 - Math.random()).slice(0, 15);
+            
+            bgImages.forEach(src => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.className = 'bg-scatter-img';
+                
+                let topPos = Math.random() > 0.5 ? Math.random() * 20 : 80 + Math.random() * 10;
+                let leftPos = Math.random() * 90;
+                
+                img.style.top = `${topPos}vh`;
+                img.style.left = `${leftPos}vw`;
+                img.style.transform = `rotate(${(Math.random() - 0.5) * 60}deg)`;
+                
+                container.appendChild(img);
+            });
+            // Keeping opacity slightly lower so text remains highly readable on all screens!
+            container.style.opacity = '0.35'; 
+        }
+
+        function switchScreen(hideId, showId) {
+            const hideEl = document.getElementById(hideId); const showEl = document.getElementById(showId);
+            hideEl.style.opacity = '0';
+
+            setTimeout(() => {
+                hideEl.classList.remove('active'); showEl.classList.add('active');
+                void showEl.offsetWidth; showEl.style.opacity = '1';
+                
+                if(showId === 'screen-letter') startTypewriter();
+                if(showId === 'screen-timeline') renderTimeline();
+                bindCursorHover();
+            }, 800);
+        }
+
+        /* =========================================
+           MAGIC MERGE ANIMATION -> START GAMES
+           ========================================= */
+        function startGames() {
+            const introUI = document.getElementById('intro-ui');
+            introUI.style.transition = 'opacity 0.5s'; introUI.style.opacity = '0';
+            
+            initMusic();
+            
+            // Generate the scattered background for the rest of the site right here
+            createBackgroundScatter(); 
+            
+            const pieces = document.querySelectorAll('.scatter-piece');
+            const fronts = document.querySelectorAll('.scatter-front');
+            
+            pieces.forEach((piece, i) => {
+                setTimeout(() => {
+                    piece.style.left = piece.dataset.targetLeft;
+                    piece.style.top = piece.dataset.targetTop;
+                    piece.style.transform = 'rotate(0deg) scale(1)';
+                    piece.style.boxShadow = 'none'; piece.style.border = 'none'; piece.style.borderRadius = '0'; 
+                }, i * 100); 
+            });
+
+            setTimeout(() => { fronts.forEach(f => f.style.opacity = '0'); }, 900);
+
+            setTimeout(() => {
+                pieces.forEach((piece) => {
+                    piece.style.transition = 'all 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.8s';
+                    let rot = (Math.random() - 0.5) * 360;
+                    piece.style.transform = `translate(0, -150vh) rotate(${rot}deg) scale(1.3)`;
+                    piece.style.opacity = '0';
+                });
+                setTimeout(() => { switchScreen('screen-intro', 'screen-game1'); initMemoryGame(); }, 900);
+            }, 3200); 
+        }
+
+        function finishGames() { switchScreen('screen-game3', 'screen-welcome'); createHearts(); }
+
+        /* --- GAME 1: MEMORY MATCH --- */
+        let hasFlippedCard = false, lockBoard = false;
+        let firstCard, secondCard, matchedPairs = 0;
+        const TOTAL_PAIRS = 6; 
+
+        function initMemoryGame() {
+            const board = document.getElementById('memory-board'); board.innerHTML = '';
+            
+            let shuffledPool = [...allImages].sort(() => 0.5 - Math.random());
+            let selectedImgs = shuffledPool.slice(0, TOTAL_PAIRS);
+            let gameImgs = [...selectedImgs, ...selectedImgs].sort(() => 0.5 - Math.random());
+
+            gameImgs.forEach(src => {
+                const card = document.createElement('div');
+                card.classList.add('mem-card', 'hover-target'); card.dataset.img = src;
+                card.innerHTML = `<div class="mem-face mem-front"><span class="material-icons">favorite_border</span></div>
+                                  <div class="mem-face mem-back" style="background-image: url('${src}')"></div>`;
+                card.addEventListener('click', flipCard);
+                board.appendChild(card);
+            });
+        }
+
+        function flipCard() {
+            if (lockBoard || this === firstCard) return;
+            this.classList.add('flip');
+            if (!hasFlippedCard) { hasFlippedCard = true; firstCard = this; return; }
+            secondCard = this; checkForMatch();
+        }
+
+        function checkForMatch() {
+            let isMatch = firstCard.dataset.img === secondCard.dataset.img;
+            isMatch ? disableCards() : unflipCards();
+        }
+
+        function disableCards() {
+            firstCard.removeEventListener('click', flipCard); secondCard.removeEventListener('click', flipCard);
+            matchedPairs++; resetBoard();
+            if(matchedPairs === TOTAL_PAIRS) {
+                setTimeout(() => { document.getElementById('btn-next-game1').style.display = 'inline-flex'; initPuzzleGame(); }, 500);
+            }
+        }
+
+        function unflipCards() { lockBoard = true; setTimeout(() => { firstCard.classList.remove('flip'); secondCard.classList.remove('flip'); resetBoard(); }, 1000); }
+        function resetBoard() { [hasFlippedCard, lockBoard] = [false, false]; [firstCard, secondCard] = [null, null]; }
+
+        /* --- GAME 2: SWAP PUZZLE --- */
+        let selectedPiece = null;
+        function initPuzzleGame() {
+            const board = document.getElementById('puzzle-board'); board.innerHTML = '';
+            let sz = isMobile ? 80 : 100;
+            let bz = sz * 3;
+
+            let positions = [];
+            for(let i=0; i<9; i++) {
+                let x = (i % 3) * -sz; let y = Math.floor(i / 3) * -sz;
+                positions.push({ id: i, pos: `${x}px ${y}px` });
+            }
+            let shuffled = [...positions].sort(() => 0.5 - Math.random());
+
+            shuffled.forEach((obj, i) => {
+                const piece = document.createElement('div');
+                piece.className = 'puzzle-piece hover-target';
+                // Using proper string concatenation to ensure the image loads safely
+                piece.style.backgroundImage = "url('" + mainPuzzleImage + "')"; 
+                piece.style.backgroundSize = `${bz}px ${bz}px`;
+                piece.style.backgroundPosition = obj.pos;
+                piece.dataset.correctId = obj.id;
+                
+                piece.addEventListener('click', handlePuzzleClick);
+                board.appendChild(piece);
+            });
+            setTimeout(() => { document.getElementById('skip-puzzle').style.display = 'inline-block'; }, 15000);
+        }
+
+        function handlePuzzleClick(e) {
+            const piece = e.target;
+            if(!selectedPiece) { selectedPiece = piece; piece.classList.add('selected'); } 
+            else {
+                let tempPos = selectedPiece.style.backgroundPosition; let tempCorrect = selectedPiece.dataset.correctId;
+                selectedPiece.style.backgroundPosition = piece.style.backgroundPosition; selectedPiece.dataset.correctId = piece.dataset.correctId;
+                piece.style.backgroundPosition = tempPos; piece.dataset.correctId = tempCorrect;
+                selectedPiece.classList.remove('selected'); selectedPiece = null; checkPuzzleWin();
+            }
+        }
+
+        function checkPuzzleWin() {
+            let won = true;
+            document.querySelectorAll('.puzzle-piece').forEach((p, i) => { if(parseInt(p.dataset.correctId) !== i) won = false; });
+            if(won) solvePuzzle();
+        }
+
+        function solvePuzzle() {
+            document.querySelectorAll('.puzzle-piece').forEach(p => {
+                p.style.border = 'none'; p.style.boxShadow = 'none'; p.style.borderRadius = '0';
+            });
+            document.getElementById('puzzle-board').style.gap = '0';
+            document.getElementById('puzzle-board').style.padding = '0';
+            document.getElementById('puzzle-board').style.border = '4px solid var(--accent)';
+            document.getElementById('btn-next-game2').style.display = 'inline-flex';
+            document.getElementById('skip-puzzle').style.display = 'none';
+        }
+
+        /* --- GAME 3: DODGING BUTTON WITH CHANGING TEXT --- */
+        const btnNo = document.getElementById('btn-no');
+        const funnyNoPhrases = ["Click Yes!", "Please? 🥺", "Are you sure?", "Wrong button!", "Try again!", "No isn't an option!"];
+        let phraseIdx = 0;
+        
+        function dodgeButton(e) {
+            if(e.type === 'touchstart') e.preventDefault();
+            
+            // Change the text inside the NO button dynamically!
+            btnNo.innerHTML = `<span class="material-icons">close</span> ${funnyNoPhrases[phraseIdx]}`;
+            phraseIdx = (phraseIdx + 1) % funnyNoPhrases.length; // cycle through phrases
+            
+            const container = document.querySelector('.question-container');
+            const rect = container.getBoundingClientRect();
+            
+            // Calculate a safe area for the button to jump around in
+            const maxX = rect.width - btnNo.offsetWidth - 20; 
+            const maxY = 150; 
+            
+            let randomX = Math.random() * maxX - (maxX/2); 
+            let randomY = Math.random() * maxY - (maxY/2);
+            
+            btnNo.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+        
+        btnNo.addEventListener('mouseover', dodgeButton);
+        btnNo.addEventListener('touchstart', dodgeButton, {passive: false});
+
+        /* =========================================
+           REST OF THE APP LOGIC
+           ========================================= */
+        function goToLetter() { switchScreen('screen-welcome', 'screen-letter'); }
+        function goToMemoryLane() { switchScreen('screen-letter', 'screen-timeline'); }
+
+        function createHearts() {
+            const container = document.getElementById('hearts-container');
+            setInterval(() => {
+                const heart = document.createElement('span'); heart.className = 'material-icons heart'; heart.innerText = 'favorite';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.fontSize = (Math.random() * 1.5 + 0.5) + 'rem';
+                heart.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                container.appendChild(heart); setTimeout(() => heart.remove(), 8000);
+            }, 400);
+        }
+
+        let typeIdx = 0; let isTyping = false;
+        function startTypewriter() {
+            if(isTyping) return; isTyping = true;
+            const target = document.getElementById('typewriter-text'); target.innerHTML = '';
+            function typeWriter() {
+                if (typeIdx < customLetter.length) { target.innerHTML += customLetter.charAt(typeIdx); typeIdx++; setTimeout(typeWriter, 35); }
+            }
+            setTimeout(typeWriter, 800);
+        }
+
+        const bgMusic = document.getElementById('bg-music');
+        const playPauseBtn = document.getElementById('play-pause-btn'); let isPlaying = false;
+
+        function initMusic() {
+            bgMusic.volume = 0;
+            bgMusic.play().then(() => {
+                isPlaying = true; let vol = 0;
+                const fadeInterval = setInterval(() => {
+                    if(vol < 0.5) { vol += 0.05; bgMusic.volume = vol; } else { clearInterval(fadeInterval); }
+                }, 200);
+            }).catch(e => console.log("Audio autoplay prevented"));
+        }
+        function toggleMusic() {
+            if(isPlaying) { bgMusic.pause(); playPauseBtn.innerText = 'play_circle'; } 
+            else { bgMusic.play(); playPauseBtn.innerText = 'pause_circle'; }
+            isPlaying = !isPlaying;
+        }
+        function changeVolume(val) { bgMusic.volume = val; }
+
+        /* --- TIMELINE LOGIC --- */
+        let timelineRendered = false;
+        function renderTimeline() {
+            if(timelineRendered) return; timelineRendered = true;
+            const container = document.getElementById('timeline-container');
+            timelineData.forEach((mem) => {
+                const item = document.createElement('div'); item.className = 'timeline-item';
+                item.innerHTML = `
+                    <div class="timeline-dot"></div>
+                    <div class="memory-card hover-target" onclick="showModal('${mem.img}', '${mem.title}', '${mem.note}')">
+                        <img src="${mem.img}" class="memory-img" alt="Memory">
+                        <div class="memory-date">${mem.date}</div>
+                        <h3 style="font-size: 1.2rem; margin-top: 5px;">${mem.title}</h3>
+                    </div>`;
+                container.appendChild(item);
+            });
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('show'); });
+            }, { threshold: 0.2 });
+            document.querySelectorAll('.timeline-item').forEach(el => observer.observe(el));
+            bindCursorHover();
+        }
+
+        /* --- MODAL LOGIC --- */
+        function showModal(img, title, note) {
+            document.getElementById('modal-img').src = img; document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-note').innerText = note; document.getElementById('memory-modal').classList.add('active');
+        }
+        function closeModal() {
+            document.getElementById('memory-modal').classList.remove('active');
+            setTimeout(() => document.getElementById('modal-img').src = '', 400);
+        }
+    </script>
+</body>
+</html>
